@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <div th:insert="links.html"></div>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center" style="font-weight: bolder;">
+            Electronic shop items
+        </h1>
+        <div class="row">
+            <div class="col-4 mb-4 text-center" th:each="item:${items}">
+                <div class="card-body" style="background-color: #d1e7dd; border: 0; border-radius: 10px;">
+                    <h4 class="card-title text-primary" style="font-weight: bold" th:text="${item.getName()}"></h4>
+                    <p class="card-text" th:text="${item.getDescription()}"></p>
+                    <h5 class="text-center text-success" style="font-weight: bold;"><strong th:text="${item.getPrice()}"></strong> $</h5>
+                    <a href="#" class="btn btn btn-success w-100" style="font-weight: bold;">DETAILS</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
