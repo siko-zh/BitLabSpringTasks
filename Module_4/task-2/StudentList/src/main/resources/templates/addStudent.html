@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <div th:insert="links.html"></div>
+</head>
+<body>
+    <div th:insert="nav.html"></div>
+    <form method="post" action="/addStudent">
+        <div class="row mt-2 justify-content-center">
+            <div class="col-6">
+                <label class="form-label">NAME:</label>
+                <input type="text" class="form-control" placeholder="Insert name:" name="name" th:value="${stu}">
+            </div>
+        </div>
+        <div class="row mt-2 justify-content-center">
+            <div class="col-6">
+                <label class="form-label">SURNAME:</label>
+                <input type="text" class="form-control" placeholder="Insert surname:" name="surname">
+            </div>
+        </div>
+        <div class="row mt-2 justify-content-center">
+            <div class="col-6">
+                <label class="form-label">EXAM</label>
+                <input type="number" class="form-control" placeholder="Insert exam:" name="exam">
+            </div>
+        </div>
+        <div class="row mt-2 justify-content-center">
+            <div class="col-6">
+                <button class="btn btn-success" type="submit">ADD STUDENT</button>
+            </div>
+        </div>
+    </form>
+
+
+
+</body>
+</html>
