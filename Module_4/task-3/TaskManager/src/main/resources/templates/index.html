@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <div th:insert="links.html"></div>
+</head>
+<body>
+<div th:insert="nav.html"></div>
+
+<div class="container">
+    <div th:insert="addTask.html"></div>
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>DEADLINE DATE</th>
+            <th>IS COMPLETED</th>
+            <th>DETAILS</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task:${tasks}">
+            <td th:text="${task.id}"></td>
+            <td th:text="${task.name}"></td>
+            <td th:text="${task.deadline}"></td>
+            <td th:text="${task.isCompleted}"></td>
+            <td><a th:href="@{'/details/' + ${task.id}}" class="btn btn-outline-light btn-sm bg-info">DETAILS</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

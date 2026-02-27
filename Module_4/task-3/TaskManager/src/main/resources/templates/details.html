@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <div th:insert="links.html"></div>
+</head>
+<body>
+<div th:insert="nav.html"></div>
+
+<div class="container mt-3 ">
+    <div class="row justify-content-center">
+        <div class="col-6" th:object="${task}">
+            <form method="post" action="/update">
+                <input type="hidden" name="id" th:value="${task.id}">
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>TASK NAME:</label>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <input type="text" name="name" class="form-control" th:value="${task.name}">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>TASK DESCRIPTION:</label>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <textarea class="form-control" name="description" rows="5" th:field="${task.description}"></textarea>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>TASK DEADLINE:</label>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <input type="date" name="deadline" class="form-control" th:value="${task.deadline}">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>COMPLETED:</label>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <select type="text" name="isCompleted" class="form-control form-control-sm" th:value="${task.isCompleted ? 'YES' : 'NO'}">
+                            <option>YES</option>
+                            <option>NO</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <button class="btn btn-sm btn-success">SAVE</button>
+                        <input type="hidden" th:value="${task.id}" name="id">
+                        <button type="submit" formaction="/delete" class="btn btn-sm btn-danger">DELETE</button>
+                    </div>
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
