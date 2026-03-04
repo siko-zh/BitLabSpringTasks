@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{nav-layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container" layout:fragment="content" >
+  <div class="row justify-content-center">
+    <div class="col-6" th:object="${request}">
+        <div class="row mt-3">
+            <div class="col-12">
+                <h4 th:style="'text-align: center; color: ' +(${request.handled} ? 'green' : 'red')" th:text="${request.handled ? 'Обработанная заявка' : '***Новое необработанная заявка***'}"></h4>
+            </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <label>ФИО :</label>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <input type="text" name="userName" class="form-control" th:value="${request.userName}" disabled>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <label>Курс :</label>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <select class="form-select" name="courseName" disabled>
+                <option th:text="${request.courseName}" th:selected="${request.courseName}"></option>
+            </select>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <label>Телефон :</label>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <input type="text" name="phone" class="form-control" th:value="${request.phone}" disabled>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <label>Комментарий :</label>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <textarea style="width: 100%; height:200px" type="text" name="commentary" th:text="${request.commentary}" disabled></textarea>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+              <form method="post" action="/update">
+                <input type="hidden" name="id" th:value="${request.id}">
+                <button class="btn btn-success" name="handled" type="submit" th:value="true" th:if="${!request.handled}">Обработать заявку</button>
+                <button class="btn btn-danger" type="submit" formaction="/delete">Удалить заявку</button>
+              </form>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

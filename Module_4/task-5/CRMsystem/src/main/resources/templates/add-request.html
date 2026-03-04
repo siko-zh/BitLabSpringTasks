@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{nav-layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="container" layout:fragment="content" >
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <form method="post" action="/add-request">
+                    <input type="hidden" name="id">
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <label>ФИО :</label>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <input type="text" name="userName" class="form-control" placeholder="ФИО :" >
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <label>Курс :</label>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <select class="form-select" name="courseName">
+                                <option value="" disabled selected>Выберите курс</option>
+                                <option th:each="name: ${courses}"
+                                        th:value="${name}"
+                                        th:text="${name}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <label>Телефон :</label>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <input type="text" name="phone" class="form-control" placeholder="+7(7__) _______">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <label>Комментарий :</label>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <textarea style="width: 100%; height:200px" type="text" name="commentary" placeholder="Комментарии"></textarea>
+                        </div>
+                    </div>
+                    <input type="hidden" name="handled" value="false">
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button class="btn btn-success" type="submit">Добавить заявку</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
