@@ -1,0 +1,211 @@
+package com.zholdigaliev.crmsystem.db;
+
+import com.zholdigaliev.crmsystem.entity.ApplicationRequest;
+import com.zholdigaliev.crmsystem.entity.Course;
+
+import java.sql.*;
+import java.util.ArrayList;
+
+public class DBConnector {
+    private static Connection connection;
+    private static String login = "postgres";
+    private static String password = "6977";
+    private static String url = "jdbc:postgresql://localhost:5433/CRMsystem?currentSchema=CRM";
+
+    static {
+        try {
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(url, login, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<ApplicationRequest> getAllRequests() {
+        ArrayList<ApplicationRequest> requests = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * " +
+                                                                          "FROM requests.applicationrequest JOIN requests.course ON requests.applicationrequest.course_id = requests.course.id");
+            ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()) {
+                ApplicationRequest request = new ApplicationRequest();
+                Course course = new Course();
+                course.setId(resultSet.getLong("course_id"));
+                course.setName(resultSet.getString("name"));
+                course.setDescription(resultSet.getString("description"));
+                course.setPrice(resultSet.getInt("price"));
+
+                request.setId(resultSet.getLong("id"));
+                request.setUserName(resultSet.getString("username"));
+                request.setCommentary(resultSet.getString("commentary"));
+                request.setPhone(resultSet.getString("phone"));
+                request.setHandled(resultSet.getBoolean("handled"));
+                request.setCourse(course);
+
+
+
+
+                requests.add(request);
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return requests;
+    }
+
+    public static void addRequest(ApplicationRequest request) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO requests.applicationrequest " +
+                    "(username, course_id, commentary, phone, handled) VALUES (?, ?, ?, ?, ?)");
+            statement.setString(1, request.getUserName());
+            statement.setLong(2, request.getCourse().getId());
+            statement.setString(3, request.getCommentary());
+            statement.setString(4, request.getPhone());
+            statement.setBoolean(5, request.getHandled());
+
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static ApplicationRequest getRequestById(int id) {
+        ApplicationRequest applicationRequest = new ApplicationRequest();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM requests.applicationrequest JOIN requests.course ON requests.applicationrequest.course_id = requests.course.id WHERE requests.applicationrequest.id = ?");
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Course course = new Course();
+                course.setId(resultSet.getLong("course_id"));
+                course.setName(resultSet.getString("name"));
+                course.setDescription(resultSet.getString("description"));
+                course.setPrice(resultSet.getInt("price"));
+
+                applicationRequest.setId(resultSet.getLong("id"));
+                applicationRequest.setUserName(resultSet.getString("username"));
+                applicationRequest.setCommentary(resultSet.getString("commentary"));
+                applicationRequest.setPhone(resultSet.getString("phone"));
+                applicationRequest.setHandled(resultSet.getBoolean("handled"));
+                applicationRequest.setCourse(course);
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return applicationRequest;
+    }
+
+    public static void updateRequest(int id, Boolean handled) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("UPDATE requests.applicationrequest SET handled = ? WHERE id = ?");
+            statement.setBoolean(1, handled);
+            statement.setInt(2, id);
+
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteRequest(int id) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM requests.applicationrequest WHERE id = ?");
+            statement.setInt(1, id);
+
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static ArrayList<ApplicationRequest> getNewRequests() {
+        ArrayList<ApplicationRequest> requests = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM requests.applicationrequest JOIN requests.course ON requests.applicationrequest.course_id = requests.course.id WHERE handled = false");
+            ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()) {
+                ApplicationRequest request = new ApplicationRequest();
+                Course course = new Course();
+                course.setId(resultSet.getLong("course_id"));
+                course.setName(resultSet.getString("name"));
+                course.setDescription(resultSet.getString("description"));
+                course.setPrice(resultSet.getInt("price"));
+
+                request.setId(resultSet.getLong("id"));
+                request.setUserName(resultSet.getString("username"));
+                request.setCommentary(resultSet.getString("commentary"));
+                request.setPhone(resultSet.getString("phone"));
+                request.setHandled(resultSet.getBoolean("handled"));
+                request.setCourse(course);
+
+                requests.add(request);
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return requests;
+    }
+
+    public static ArrayList<ApplicationRequest> getProcessedRequests() {
+        ArrayList<ApplicationRequest> requests = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM requests.applicationrequest JOIN requests.course ON requests.applicationrequest.course_id = requests.course.id WHERE handled = true");
+            ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()) {
+                ApplicationRequest request = new ApplicationRequest();
+                Course course = new Course();
+                course.setId(resultSet.getLong("course_id"));
+                course.setName(resultSet.getString("name"));
+                course.setDescription(resultSet.getString("description"));
+                course.setPrice(resultSet.getInt("price"));
+
+                request.setId(resultSet.getLong("id"));
+                request.setUserName(resultSet.getString("username"));
+                request.setCommentary(resultSet.getString("commentary"));
+                request.setPhone(resultSet.getString("phone"));
+                request.setHandled(resultSet.getBoolean("handled"));
+                request.setCourse(course);
+
+                requests.add(request);
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return requests;
+    }
+
+    public static ArrayList<Course> getAllCourses() {
+        ArrayList<Course> courses = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM requests.course");
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Course course = new Course();
+                course.setId(resultSet.getLong("id"));
+                course.setName(resultSet.getString("name"));
+                course.setDescription(resultSet.getString("description"));
+                course.setPrice(resultSet.getInt("price"));
+                courses.add(course);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return courses;
+    }
+}
