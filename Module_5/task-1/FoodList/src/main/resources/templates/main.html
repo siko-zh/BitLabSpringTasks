@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <div th:insert="~{links.html}"></div>
+</head>
+<body>
+    <nav class="navbar bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">Food List</span>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-10">
+                <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addFood">
+                    ADD NEW +
+                </button>
+
+                <div class="modal fade" id="addFood" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add New Food</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" action="/add-food">
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <div>
+                                                <label>Name</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <div>
+                                                <input type="text" name="name" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <div>
+                                                <label>Calories (Cal):</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <div>
+                                                <input type="number" name="calories" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <div>
+                                                <label>Amount</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <div>
+                                                <input type="number" name="amount" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <div>
+                                                <label>Price (KZT):</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <div>
+                                                <input type="number" name="price" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-start" style="padding-left: 0px">
+                                        <button type="submit" class="btn btn-primary">Add Food</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-bordered mt-3">
+                    <thead class="table-secondary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Calories (Cal)</th>
+                        <th>Amount</th>
+                        <th>Price (KZT)</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="food :${foods}">
+                            <td th:text="${food.id}"></td>
+                            <td th:text="${food.name}"></td>
+                            <td th:text="${food.calories}"></td>
+                            <td th:text="${food.amount}"></td>
+                            <td th:text="${food.price}"></td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" th:data-bs-target="'#editFood' + ${food.id}">
+                                    Edit
+                                </button>
+
+                                <div class="modal fade" th:id="'editFood' + ${food.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="staticBackdropLabel1">Edit Food</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="post" action="/update-food">
+                                                    <input type="hidden" name="id" th:value="${food.id}">
+                                                    <div class="row mt-2">
+                                                        <div class="col-12">
+                                                            <div>
+                                                                <label>Name</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-2">
+                                                        <div class="col-12">
+                                                            <div>
+                                                                <input type="text" name="name" class="form-control" th:value="${food.name}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-2">
+                                                        <div class="col-12">
+                                                            <div>
+                                                                <label>Calories (Cal):</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-2">
+                                                        <div class="col-12">
+                                                            <div>
+                                                                <input type="number" name="calories" class="form-control" th:value="${food.calories}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-2">
+                                                        <div class="col-12">
+                                                            <div>
+                                                                <label>Amount</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-2">
+                                                        <div class="col-12">
+                                                            <div>
+                                                                <input type="number" name="amount" class="form-control" th:value="${food.amount}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-2">
+                                                        <div class="col-12">
+                                                            <div>
+                                                                <label>Price (KZT):</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-2">
+                                                        <div class="col-12">
+                                                            <div>
+                                                                <input type="number" name="price" class="form-control" th:value="${food.price}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer justify-content-start">
+                                                        <button type="submit" class="btn btn-primary">Save</button>
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#deleteFood' + ${food.id}">
+                                    Delete
+                                </button>
+
+                                <div class="modal fade" th:id="'deleteFood' + ${food.id}" tabindex="-1" aria-labelledby="deleteProductLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="deleteProductLabel">Delete Food</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure want to delete this food
+                                            </div>
+                                            <div class="modal-footer justify-content-start">
+                                                <form method="post" action="/delete-food">
+                                                    <input type="hidden" name="id" th:value="${food.id}">
+                                                    <button class="btn btn-danger">Yes</button>
+                                                </form>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-1"></div>
+        </div>
+
+    </div>
+</body>
+</html>
